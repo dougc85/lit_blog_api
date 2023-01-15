@@ -1,0 +1,19 @@
+{
+  "name": "lit_blog_api",
+  "version": "1.0.0",
+  "description": "An API provided for the lit_blog frontend",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dougc85/lit_blog_api.git"
+  },
+  "author": "Doug Carter",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/dougc85/lit_blog_api/issues"
+  },
+  "homepage": "https://github.com/dougc85/lit_blog_api#readme"
+}
