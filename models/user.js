@@ -35,6 +35,10 @@ const userSchema = new Schema({
     post: {
       type: Schema.Types.ObjectId,
       ref: 'Post',
+    },
+    published: {
+      type: Boolean,
+      required: true,
     }
   }],
   pwResetToken: String,
