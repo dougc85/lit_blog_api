@@ -17,7 +17,11 @@ const postSchema = new Schema({
     ref: 'User',
     required: true
   },
-  timestamps: true
+  timestamps: true,
+  published: {
+    type: Boolean,
+    required: true,
+  }
 })
 
 module.exports = mongoose.model('Post', postSchema);
