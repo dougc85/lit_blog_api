@@ -9,6 +9,8 @@ const {
   postPost,
 } = require('./controllers/userController');
 
+const postRoutes = require('./routes/post');
+
 const app = express();
 const mongoDB = process.env.MONGODB_URI;
 
@@ -23,6 +25,7 @@ app.use((req, res, next) => {
 
 app.get("/", getPosts);
 app.post("/", postPost);
+app.use("/:postId", postRoutes);
 
 app.use((err, req, res, next) => {
   console.log(err);
