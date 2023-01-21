@@ -5,14 +5,14 @@ require('dotenv').config();
 const bcrypt = require('bcryptjs');
 
 const {
-  getUser
+  getPosts,
+  postPost,
 } = require('./controllers/userController');
 
 const app = express();
 const mongoDB = process.env.MONGODB_URI;
 
 app.use(express.json());
-app.use(express.static("public"));
 
 app.use((req, res, next) => {
   res.setHeader('Access-Control-Allow-Origin', '*');
@@ -21,7 +21,19 @@ app.use((req, res, next) => {
   next();
 })
 
-app.get("/", getUser);
+app.get("/", getPosts);
+app.post("/", postPost);
+
+app.use((err, req, res, next) => {
+  console.log(err);
+  if (!err.statusCode) {
+    err.statusCode = 500;
+  }
+  res.status(err.statusCode).json({
+    error: err,
+    message: err.message,
+  })
+})
 
 mongoose.set('strictQuery', true);
 mongoose.connect(mongoDB, { useNewUrlParser: true, useUnifiedTopology: true })
