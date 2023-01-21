@@ -16,29 +16,9 @@ const userSchema = new Schema({
     required: true,
   },
   posts: [{
-    startingText: {
-      type: String,
-      required: true
-    },
-    numComments: {
-      type: Number,
-      required: true,
-    },
-    date: {
-      type: Date,
-      required: true
-    },
-    imageUrl: {
-      type: String,
-      required: true
-    },
     post: {
       type: Schema.Types.ObjectId,
       ref: 'Post',
-    },
-    published: {
-      type: Boolean,
-      required: true,
     }
   }],
   pwResetToken: String,

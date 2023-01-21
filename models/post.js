@@ -17,11 +17,26 @@ const postSchema = new Schema({
     ref: 'User',
     required: true
   },
-  timestamps: true,
   published: {
     type: Boolean,
     required: true,
-  }
-})
+  },
+  comments: [{
+    body: {
+      type: String,
+      required: true,
+    },
+    author: {
+      type: String,
+      required: true,
+    },
+    id: {
+      type: String,
+      required: true
+    }
+  }]
+},
+  { timestamps: true }
+)
 
 module.exports = mongoose.model('Post', postSchema);

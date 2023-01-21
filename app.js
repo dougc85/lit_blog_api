@@ -4,6 +4,10 @@ require('dotenv').config();
 
 const bcrypt = require('bcryptjs');
 
+const {
+  getUser
+} = require('./controllers/userController');
+
 const app = express();
 const mongoDB = process.env.MONGODB_URI;
 
@@ -17,6 +21,9 @@ app.use((req, res, next) => {
   next();
 })
 
+app.get("/", getUser);
+
+mongoose.set('strictQuery', true);
 mongoose.connect(mongoDB, { useNewUrlParser: true, useUnifiedTopology: true })
   .then(() => {
     let port = process.env.PORT || '3000';
