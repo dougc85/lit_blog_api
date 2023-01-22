@@ -1,4 +1,4 @@
-const exporess = require('express');
+const express = require('express');
 const router = express.Router();
 
 const {
@@ -9,7 +9,7 @@ const {
 } = require('../controllers/PostController');
 
 router.get("/", getPost);
-router.put("/", editPost);
+router.patch("/", editPost);
 router.delete("/", deletePost);
 
 router.post("/", postComment);

@@ -8,3 +8,15 @@ exports.getPost = (req, res, next) => {
     })
     .catch(nextError(next));
 }
+
+exports.editPost = (req, res, next) => {
+
+}
+
+exports.deletePost = (req, res, next) => {
+
+}
+
+exports.postComment = (req, res, next) => {
+
+}
