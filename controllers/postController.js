@@ -50,6 +50,10 @@ exports.getPost = (req, res, next) => {
 
   Post.findById(req.params.postId)
     .then(post => {
+
+      if (!post) {
+        return newError(next, 404, 'Post with that ID not found');
+      }
       res.status(200).json(post);
     })
     .catch(nextError(next));
