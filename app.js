@@ -4,11 +4,6 @@ require('dotenv').config();
 
 const bcrypt = require('bcryptjs');
 
-const {
-  getPosts,
-  postPost,
-} = require('./controllers/userController');
-
 const postRoutes = require('./routes/post');
 
 const app = express();
@@ -23,9 +18,7 @@ app.use((req, res, next) => {
   next();
 })
 
-app.get("/", getPosts);
-app.post("/", postPost);
-app.use("/:postId", postRoutes);
+app.use("/posts", postRoutes);
 
 app.use((err, req, res, next) => {
   console.log(err);
