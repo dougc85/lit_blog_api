@@ -1,4 +1,5 @@
 const Post = require('../models/post');
+const User = require('../models/user');
 
 const nextError = require('../utilities/nextError');
 const newError = require('../utilities/newError');
@@ -33,12 +34,21 @@ exports.postPost = (req, res, next) => {
     published: true,
   })
 
-  post
-    .save()
+  let newPost;
+
+  post.save()
+    .then(result => {
+      newPost = result;
+      return User.findByIdAndUpdate(process.env.USER_ID, {
+        $push: {
+          "posts": result._id,
+        }
+      })
+    })
     .then(result => {
       res.status(201).json({
         message: 'Post successfully created',
-        post: result,
+        post: newPost,
       })
     })
     .catch(nextError(next))
@@ -97,8 +107,21 @@ exports.editPost = (req, res, next) => {
 
 exports.deletePost = (req, res, next) => {
 
-}
+  const postPromise = Post.findByIdAndDelete(req.params.postId);
 
-exports.postComment = (req, res, next) => {
+  const userPromise = User.findByIdAndUpdate(process.env.USER_ID, {
+    $pull: {
+      "posts": req.params.postId,
+    }
+  })
 
+  Promise.all([postPromise, userPromise])
+    .then(results => {
+      console.log(results, 'results')
+      res.status(200).json({
+        message: 'Post successfully deleted',
+        post: results[0],
+      })
+    })
+    .catch(nextError(next));
 }

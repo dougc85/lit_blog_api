@@ -16,10 +16,12 @@ const userSchema = new Schema({
     required: true,
   },
   posts: [{
-    post: {
-      type: Schema.Types.ObjectId,
-      ref: 'Post',
-    }
+    type: Schema.Types.ObjectId,
+    ref: 'Post',
+  }],
+  comments: [{
+    type: Schema.Types.ObjectId,
+    ref: 'Comment',
   }],
   pwResetToken: String,
   pwResetTokenExp: Date,
