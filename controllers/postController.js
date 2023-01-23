@@ -5,6 +5,7 @@ const nextError = require('../utilities/nextError');
 const newError = require('../utilities/newError');
 
 exports.getPosts = (req, res, next) => {
+
   Post
     .find({ creator: "63cb69a0922a8edb3bf5a574", published: true })
     .sort('-createdAt')
