@@ -46,8 +46,6 @@ exports.postPost = (req, res, next) => {
 
 exports.getPost = (req, res, next) => {
 
-  console.log(req.url, 'url');
-
   Post.findById(req.params.postId)
     .then(post => {
 
@@ -60,7 +58,41 @@ exports.getPost = (req, res, next) => {
 }
 
 exports.editPost = (req, res, next) => {
+  const {
+    title,
+    imageURL,
+    body,
+    published,
+  } = req.body;
+  const postId = req.params.postId;
 
+  if (typeof published === "string") {
+    Post.findByIdAndUpdate(postId, {
+      published: published === "true" ? true : false
+    }, { new: true })
+      .then(result => {
+        res.status(200).json({
+          message: 'Post successfully edited',
+          post: result,
+        })
+      })
+      .catch(nextError(next));
+  } else if (!body || !title) {
+    return newError(next, 422, 'Validation failed. Title and body fields must not be empty.');
+  } else {
+    Post.findByIdAndUpdate(postId, {
+      body: body.trim(),
+      title: title.trim(),
+      imageURL: (imageURL ? imageURL.trim() : null),
+    }, { new: true })
+      .then(result => {
+        res.status(200).json({
+          message: 'Post successfully edited',
+          post: result,
+        })
+      })
+      .catch(nextError(next));
+  }
 }
 
 exports.deletePost = (req, res, next) => {
