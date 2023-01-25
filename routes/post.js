@@ -3,6 +3,8 @@ const router = express.Router();
 
 const commentRoutes = require('../routes/comment');
 
+const checkAuth = require('../utilities/checkAuth');
+
 const {
   getPosts,
   postPost,
@@ -12,7 +14,7 @@ const {
 } = require('../controllers/PostController');
 
 
-router.get("/", getPosts);
+router.get("/", checkAuth, getPosts);
 router.post("/", postPost);
 
 router.get("/:postId", getPost);

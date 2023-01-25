@@ -6,14 +6,26 @@ const newError = require('../utilities/newError');
 
 exports.getPosts = (req, res, next) => {
 
-  Post
-    .find({ creator: "63cb69a0922a8edb3bf5a574", published: true })
-    .sort('-createdAt')
-    .limit(10)
-    .then(posts => {
-      res.status(200).json(posts);
-    })
-    .catch(nextError(next));
+  if (req.userId === process.env.USER_ID) {
+    Post
+      .find({ creator: process.env.USER_ID })
+      .sort('-createdAt')
+      .limit(10)
+      .then(posts => {
+        res.status(200).json(posts);
+      })
+      .catch(nextError(next));
+  } else {
+    Post
+      .find({ creator: process.env.USER_ID, published: true })
+      .sort('-createdAt')
+      .limit(10)
+      .then(posts => {
+        res.status(200).json(posts);
+      })
+      .catch(nextError(next));
+  }
+
 }
 
 exports.postPost = (req, res, next) => {
