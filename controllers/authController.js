@@ -27,14 +27,17 @@ exports.postSignin = (req, res, next) => {
             console.log(user, 'user');
             const token = jwt.sign({
               email,
-              userID: user._id,
+              userId: user._id,
               username: user.username
             }, process.env.SECRET_STRING,
               {
                 expiresIn: '1h'
               })
             res.status(200).json({
-              token
+              token,
+              email,
+              userId: user._id,
+              username: user.username
             })
           } else {
             return newError(next, 401, 'Invalid password');

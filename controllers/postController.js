@@ -78,9 +78,9 @@ exports.editPost = (req, res, next) => {
   } = req.body;
   const postId = req.params.postId;
 
-  if (typeof published === "string") {
+  if (typeof published === "boolean") {
     Post.findByIdAndUpdate(postId, {
-      published: published === "true" ? true : false
+      published: published ? true : false
     }, { new: true })
       .then(result => {
         res.status(200).json({
