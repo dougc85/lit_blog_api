@@ -58,6 +58,7 @@ exports.postPost = (req, res, next) => {
 exports.getPost = (req, res, next) => {
 
   Post.findById(req.params.postId)
+    .populate('comments')
     .then(post => {
 
       if (!post) {

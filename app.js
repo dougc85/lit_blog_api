@@ -6,6 +6,7 @@ const cors = require('cors');
 const bcrypt = require('bcryptjs');
 
 const postRoutes = require('./routes/post');
+const authRoutes = require('./routes/auth');
 
 const app = express();
 const mongoDB = process.env.MONGODB_URI;
@@ -20,12 +21,13 @@ app.use(express.json());
 // })
 
 let corsOptions = {
-  origin: ['http://localhost:3000'],
+  origin: [process.env.CLIENT_URL],
 }
 
 app.use(cors(corsOptions));
 
 app.use("/posts", postRoutes);
+app.use("/auth", authRoutes);
 
 app.use((err, req, res, next) => {
   console.log(err);
