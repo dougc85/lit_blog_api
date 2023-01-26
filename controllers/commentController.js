@@ -55,26 +55,37 @@ exports.postComment = (req, res, next) => {
 }
 
 exports.deleteComment = (req, res, next) => {
-  const commentPromise = Comment.findByIdAndDelete(req.params.commentId);
 
-  const userPromise = User.findByIdAndUpdate(process.env.ANONYMOUS_ID, {
+  Post.findOneAndUpdate({
+    _id: req.params.postId,
+    creator: req.userId,
+  }, {
     $pull: {
       "comments": req.params.commentId,
     }
   })
+    .then(result => {
+      if (!result) {
+        newError(next, 401, "Not authorized to delete this comment. Only the creator on the comment's parent post may delete a comment");
+      } else {
+        const commentPromise = Comment.findByIdAndDelete(req.params.commentId);
 
-  const postPromise = Post.findByIdAndUpdate(req.params.postId, {
-    $pull: {
-      "comments": req.params.commentId,
-    }
-  })
-
-  Promise.all([commentPromise, postPromise, userPromise])
-    .then(results => {
-      res.status(200).json({
-        message: 'Comment successfully deleted',
-        post: results[0],
-      })
+        const userPromise = User.findByIdAndUpdate(process.env.ANONYMOUS_ID, {
+          $pull: {
+            "comments": req.params.commentId,
+          }
+        })
+        Promise.all([commentPromise, userPromise])
+          .then(results => {
+            res.status(200).json({
+              message: 'Comment successfully deleted',
+              post: results[0],
+            })
+          })
+          .catch(nextError(next));
+      }
     })
     .catch(nextError(next));
+
+
 }
