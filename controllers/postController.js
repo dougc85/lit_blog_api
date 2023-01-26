@@ -94,7 +94,10 @@ exports.editPost = (req, res, next) => {
   const postId = req.params.postId;
 
   if (typeof published === "boolean") {
-    Post.findByIdAndUpdate(postId, {
+    Post.findOneAndUpdate({
+      _id: postId,
+      creator: req.userId,
+    }, {
       published: published ? true : false
     }, { new: true })
       .then(result => {
@@ -107,7 +110,10 @@ exports.editPost = (req, res, next) => {
   } else if (!body || !title) {
     return newError(next, 422, 'Validation failed. Title and body fields must not be empty.');
   } else {
-    Post.findByIdAndUpdate(postId, {
+    Post.findOneAndUpdate({
+      _id: postId,
+      creator: req.userId
+    }, {
       body: body.trim(),
       title: title.trim(),
       imageURL: (imageURL ? imageURL.trim() : null),

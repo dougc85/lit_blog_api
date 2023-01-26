@@ -4,6 +4,7 @@ const router = express.Router();
 const commentRoutes = require('../routes/comment');
 
 const checkAuth = require('../utilities/checkAuth');
+const protectRoute = require('../utilities/protectRoute');
 
 const {
   getPosts,
@@ -18,7 +19,7 @@ router.get("/", checkAuth, getPosts);
 router.post("/", postPost);
 
 router.get("/:postId", checkAuth, getPost);
-router.patch("/:postId", editPost);
+router.patch("/:postId", protectRoute, editPost);
 router.delete("/:postId", deletePost);
 
 router.use("/:postId/comments", commentRoutes);

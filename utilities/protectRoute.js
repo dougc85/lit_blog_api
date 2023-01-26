@@ -4,8 +4,9 @@ const newError = require('../utilities/newError');
 
 module.exports = (req, res, next) => {
   const authHeader = req.get('Authorization');
+
   if (!authHeader) {
-    return next();
+    return newError(next, 403, 'Access denied; not authenticated');
   }
 
   const token = req.get('Authorization').split(' ')[1];
@@ -17,7 +18,7 @@ module.exports = (req, res, next) => {
     throw err;
   }
   if (!decodedToken) {
-    newError(next, 403, 'Access denied; not authenticated');
+    return newError(next, 403, 'Access denied; not authenticated');
   }
 
   req.userId = decodedToken.userId;
