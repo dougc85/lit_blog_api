@@ -16,7 +16,7 @@ const {
 
 
 router.get("/", checkAuth, getPosts);
-router.post("/", postPost);
+router.post("/", protectRoute, postPost);
 
 router.get("/:postId", checkAuth, getPost);
 router.patch("/:postId", protectRoute, editPost);

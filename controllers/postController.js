@@ -35,8 +35,14 @@ exports.postPost = (req, res, next) => {
     imageURL
   } = req.body;
 
+  console.log(title, 'title', body, 'body');
+
   if (!title || !body) {
     return newError(next, 422, 'Validation failed. Title and body fields must not be empty.');
+  }
+
+  if (req.userId !== process.env.USER_ID) {
+    return newError(next, 401, 'Unauthorized');
   }
 
   const post = new Post({
@@ -52,7 +58,7 @@ exports.postPost = (req, res, next) => {
   post.save()
     .then(result => {
       newPost = result;
-      return User.findByIdAndUpdate(process.env.USER_ID, {
+      return User.findByIdAndUpdate(req.userId, {
         $push: {
           "posts": result._id,
         }
