@@ -21,7 +21,7 @@ app.use(express.json());
 // })
 
 let corsOptions = {
-  origin: [process.env.CLIENT_URL],
+  origin: [process.env.CLIENT_URL, "http://localhost:3000"],
 }
 
 app.use(cors(corsOptions));
