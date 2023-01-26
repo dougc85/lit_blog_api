@@ -12,7 +12,7 @@ const {
   getPost,
   editPost,
   deletePost,
-} = require('../controllers/PostController');
+} = require("../controllers/postController");
 
 
 router.get("/", checkAuth, getPosts);
