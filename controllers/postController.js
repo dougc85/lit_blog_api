@@ -130,9 +130,14 @@ exports.editPost = (req, res, next) => {
 
 exports.deletePost = (req, res, next) => {
 
-  const postPromise = Post.findByIdAndDelete(req.params.postId);
+  const postPromise = Post.findOneAndDelete({
+    _id: req.params.postId,
+    creator: req.userId,
+  });
 
-  const userPromise = User.findByIdAndUpdate(process.env.USER_ID, {
+  const userPromise = User.findOneAndUpdate({
+    _id: req.userId
+  }, {
     $pull: {
       "posts": req.params.postId,
     }

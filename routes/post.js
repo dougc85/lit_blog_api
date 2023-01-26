@@ -20,7 +20,7 @@ router.post("/", postPost);
 
 router.get("/:postId", checkAuth, getPost);
 router.patch("/:postId", protectRoute, editPost);
-router.delete("/:postId", deletePost);
+router.delete("/:postId", protectRoute, deletePost);
 
 router.use("/:postId/comments", commentRoutes);
 
