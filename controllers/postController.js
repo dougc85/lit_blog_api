@@ -76,6 +76,9 @@ exports.getPost = (req, res, next) => {
       if (!post) {
         return newError(next, 404, 'Post with that ID not found');
       }
+      if (!post.published && req.userId !== post.creator.toString()) {
+        return newError(next, 403, 'Unauthorized');
+      }
       res.status(200).json(post);
     })
     .catch(nextError(next));

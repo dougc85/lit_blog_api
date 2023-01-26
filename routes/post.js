@@ -17,7 +17,7 @@ const {
 router.get("/", checkAuth, getPosts);
 router.post("/", postPost);
 
-router.get("/:postId", getPost);
+router.get("/:postId", checkAuth, getPost);
 router.patch("/:postId", editPost);
 router.delete("/:postId", deletePost);
 
