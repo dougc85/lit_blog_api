@@ -15,14 +15,14 @@ exports.postComment = (req, res, next) => {
     return newError(next, 422, 'Validation failed. Name and body fields must not be empty.');
   }
 
-  if (name.toLowerCase() === 'doug') {
+  if (name.toLowerCase() === 'doug' && req.userId !== process.env.USER_ID) {
     return newError(next, 422, 'Validation failed. Name cannot be "Doug" in any capitalized form');
   }
 
   const comment = new Comment({
-    name: name.trim(),
+    name: (req.userId === process.env.USER_ID ? 'doug' : name.trim()),
     body: body.trim(),
-    user: process.env.ANONYMOUS_ID,
+    user: (req.userId === process.env.USER_ID ? process.env.USER_ID : process.env.ANONYMOUS_ID),
   })
 
   let newComment;
