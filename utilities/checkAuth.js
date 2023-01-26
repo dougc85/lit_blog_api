@@ -11,8 +11,7 @@ module.exports = (req, res, next) => {
   try {
     decodedToken = jwt.verify(token, process.env.SECRET_STRING);
   } catch (err) {
-    err.statusCode = 500;
-    throw err;
+    console.log(err, 'error');
   }
   if (decodedToken) {
     req.userId = decodedToken.userId;

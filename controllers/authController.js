@@ -24,7 +24,6 @@ exports.postSignin = (req, res, next) => {
       bcrypt.compare(password.trim(), user.password)
         .then(passwordIsValid => {
           if (passwordIsValid) {
-            console.log(user, 'user');
             const token = jwt.sign({
               email,
               userId: user._id,

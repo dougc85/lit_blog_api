@@ -35,8 +35,6 @@ exports.postPost = (req, res, next) => {
     imageURL
   } = req.body;
 
-  console.log(title, 'title', body, 'body');
-
   if (!title || !body) {
     return newError(next, 422, 'Validation failed. Title and body fields must not be empty.');
   }
@@ -151,7 +149,6 @@ exports.deletePost = (req, res, next) => {
 
   Promise.all([postPromise, userPromise])
     .then(results => {
-      console.log(results, 'results')
       res.status(200).json({
         message: 'Post successfully deleted',
         post: results[0],
